@@ -53,6 +53,17 @@ class UI {
     }
   }
 
+  static showAlert(message, className) {
+    const div = document.createElement('div');
+    div.className = `alert alert-${className}`;
+    div.appendChild(document.createTextNode(message));
+    const container = document.querySelector('.container');
+    const form = document.querySelector('#book-form');
+    container.insertBefore(div, form);
+
+    setTimeout(() => document.querySelector('.alert').remove(), 5000);
+  }
+
   static clearFields(){
     document.querySelector('#title').value = '';
     document.querySelector('#author').value = '';
@@ -73,17 +84,24 @@ document.querySelector('#book-form').addEventListener('submit',(e) => {
   const author = document.querySelector('#author').value;
   const pages = document.querySelector('#pages').value;
   const read = document.querySelector('#read').value;
+  
+  // Validation
+  if(title === '' || author === '' || pages === '') {
+    UI.showAlert('Please fill in the blanks', 'danger');
+  } else {
+    const book = new Book(title,author,pages,read);
 
-  const book = new Book(title,author,pages,read);
+    //Add Book yo UI
+    UI.addBookToList(book);
 
-  //Add Book yo UI
-  UI.addBookToList(book);
+    //Clear fields
+    UI.clearFields();
+  }
+});
 
-  //Clear fields
-  UI.clearFields();
+
 
   // Event: Remove Book
   document.querySelector('#book-list').addEventListener('click', (e) => {
     UI.deleteBook(e.target)
   });
-});
