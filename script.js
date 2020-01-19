@@ -74,6 +74,18 @@ class Store {
     books.push(book);
     localStorage.setItem('books', JSON.stringify(books));
   }
+
+  static removeBook(title) {
+    const books = Store.getBooks();
+
+    books.forEach((book, index) => {
+      if(book.title === title) {
+        books.splice(index,1);
+      }
+    });
+
+    localStorage.setItem('books', JSON.stringify(books));
+  }
 }
 
 // Event: display Books
@@ -95,8 +107,11 @@ document.querySelector('#book-form').addEventListener('submit',(e) => {
   } else {
     const book = new Book(title,author,pages,read);
 
-    //Add Book yo UI
+    //Add Book to UI
     UI.addBookToList(book);
+
+    //Add Book to store
+    Store.addBook(book);
 
     // Show success message
     UI.showAlert('Book Added', 'success');
@@ -110,7 +125,11 @@ document.querySelector('#book-form').addEventListener('submit',(e) => {
 
   // Event: Remove Book
   document.querySelector('#book-list').addEventListener('click', (e) => {
+    
     UI.deleteBook(e.target);
+
+    //Remove book from store
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
     // Show success message
     UI.showAlert('Book Removed', 'success');
