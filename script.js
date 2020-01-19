@@ -11,22 +11,7 @@ class Book {
 //UI
 class UI {
   static displayBooks() {
-    const StoredBooks = [
-      {
-        title: "Book One",
-        author: "Author One",
-        pages: "101",
-        read: "yes"
-      },
-      {
-        title: "Book Two",
-        author: "Author Two",
-        pages: "202",
-        read: "yes"
-      }
-    ];
-
-    const books =StoredBooks;
+    const books = Store.getBooks();
 
     books.forEach((book) => UI.addBookToList(book));
   }
@@ -69,6 +54,19 @@ class UI {
     document.querySelector('#author').value = '';
     document.querySelector('#pages').value = '';
     document.querySelector('#read').value = '';
+  }
+}
+
+// Store class
+class Store {
+  static getBooks() {
+    let books;
+    if(localStorage.getItem('books') === null) {
+      books = [];
+    } else {
+      books = JSON.parse(localStorage.getItem('books'));
+    }
+    return books;
   }
 }
 
