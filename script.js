@@ -2,7 +2,7 @@ class Book {
   constructor(title, author, pages, read = true) {
     this.title = title;
     this.author = author;
-    this.pages = pages.author;
+    this.pages = pages;
     this.read = read ? "yes" : "no";
   }
  }
@@ -125,7 +125,7 @@ document.querySelector('#book-form').addEventListener('submit',(e) => {
 
   // Event: Remove Book
   document.querySelector('#book-list').addEventListener('click', (e) => {
-    
+
     UI.deleteBook(e.target);
 
     //Remove book from store
